@@ -1,5 +1,4 @@
-[90m[12:55:42][39m [32m[OK][39m success
-[90m[12:55:42][39m [34m[Info][39m info
-[90m[12:55:42][39m [33m[Warning][39m warn
-[90m[12:55:42][39m [31m[Error][39m error
-[90m[12:55:42][39m [34m[Debug - Info][39m debug info
+[90m[15:40:28][39m [34m[Info][39m start
+[90m[15:40:28][39m [32m[Debug - OK][39m Request "SELECT * FROM webhook" ok
+[90m[15:40:28][39m [32m[OK][39m [object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
+[90m[15:40:28][39m [34m[Info][39m end

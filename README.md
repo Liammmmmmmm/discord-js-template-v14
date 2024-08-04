@@ -43,12 +43,12 @@ This is a template for a Discord bot using discord.js v14.15.3 and MySQL. Feel f
 2. Open the `.env` file with your preferred text editor and fill in the required fields:
 
     ```env
-    DISCORD_TOKEN=YOUR_DISCORD_BOT_TOKEN
+    DISCORD_TOKEN = YOUR_DISCORD_BOT_TOKEN
     
-    DB_HOST=YOUR_DATABASE_HOST
-    DB_USER=YOUR_DATABASE_USER
-    DB_PASSWORD=YOUR_DATABASE_PASSWORD
-    DB_NAME=YOUR_DATABASE_NAME
+    DB_HOST = YOUR_DATABASE_HOST
+    DB_USER = YOUR_DATABASE_USER
+    DB_PASSWORD = YOUR_DATABASE_PASSWORD
+    DB_NAME = YOUR_DATABASE_NAME
     ```
 
 ### Usage

@@ -26,6 +26,8 @@
   "homepage": "https://github.com/Liammmmmmmm/discord-js-template-v14#readme",
   "dependencies": {
     "colors": "^1.4.0",
-    "fs": "0.0.1-security"
+    "dotenv": "^16.4.5",
+    "fs": "0.0.1-security",
+    "mysql": "^2.18.1"
   }
 }
