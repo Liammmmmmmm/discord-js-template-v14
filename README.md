@@ -57,4 +57,8 @@ To start the bot, run the following command:
 
 ```sh
 node index.js
-````
+```
+
+### Links / Inspirations
+
+[TFAGaming DiscordJS-V14-Bot-Template](https://github.com/TFAGaming/DiscordJS-V14-Bot-Template/tree/main) 
