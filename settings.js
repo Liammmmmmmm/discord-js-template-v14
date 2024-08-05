@@ -15,6 +15,13 @@ const settings = {
     messages: { // Messages when language is unreachable.
         defaultLang: "en",
         DATABASE_ERROR: "A database error orccured"
+    },
+    status: {
+        statusMessages: [
+            { name: 'mes waifus', type: 3 },
+            { name: 'Reflechi au sens de la vie', type: 4 },
+        ],
+        switch_delay: 10000,       
     }
 }
 

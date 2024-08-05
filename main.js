@@ -3,22 +3,15 @@ const DatabaseConnection = require("./utils/sqlRequest");
 const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env'});
+const DiscordBot = require('./client/DiscordBot');
 
 fs.writeFileSync('./terminal.log', '', 'utf-8');
 
-async function test() {
-    info("start")
-    await new DatabaseConnection().request("SELECT * FROM webhook")
-    .then(ok => {
-        success(ok);
-    })
-    .catch(err => {
-        error(err);
-    })
-    info("end")
-}
+const client = new DiscordBot();
 
-test()
+module.exports = client;
+
+client.connect();
 
 process.on('unhandledRejection', console.error);
 process.on('uncaughtException', console.error);
