@@ -5,8 +5,6 @@ const { warn, error, info, success, debug } = require("../utils/console");
 
 const languages = fs.readdirSync('./langs/texts').filter(file => file.endsWith('.js')).map(file => file.replace(".js", ""));
 
-module.exports = languages;
-
 if(!languages.includes(settings.messages.defaultLang)) {
     error("Default language isn't an actual language");
 }
@@ -15,7 +13,7 @@ if(!languages.includes(settings.messages.defaultLang)) {
  * A class to manage user language settings and retrieve language-specific texts from a language file.
  * 
  * @example
- * let text = new txt();
+ * let text = new Txt();
  * await text.init('putuseridhere'); // init is required
  * 
  * text.changeLanguage(lang); // change the lang of the user
@@ -23,7 +21,7 @@ if(!languages.includes(settings.messages.defaultLang)) {
  * 
  * message = text.get("commandName", "textIndex");  
  */
-class txt {
+class Txt {
     /**
      * Constructs a new txt instance and sets the default language.
      */
@@ -39,10 +37,10 @@ class txt {
      * @returns {Promise<number>} - Returns 1 if the initialization is successful, 0 otherwise.
      */
     async init(userid) {
+        let resp = 0;
         if (userid) {
             this.userid = userid;
             let db = new DatabaseConnection();
-            let resp = 0;
             await db.request("SELECT lang FROM users WHERE discord_id = ?", [userid])
             .then(res => {
                 if(res.length == 1) {
@@ -80,8 +78,8 @@ class txt {
      * @returns {string} - The localized text.
      */
     get(command, text) {
-        let res = require("./langs/texts/" + this.lang)[command][text];
-        if(!res) res = require("./langs/texts/" + settings.messages.defaultLang)[command][text];
+        let res = require("./texts/" + this.lang)[command][text];
+        if(!res) res = require("./texts/" + settings.messages.defaultLang   + ".js")[command][text];
         if(!res) res = "Text error";
         return res;
     }
@@ -142,4 +140,4 @@ function addUserDefaultLang(userid) {
     })
 }
 
-module.exports = txt;
+module.exports = { Txt, languages };

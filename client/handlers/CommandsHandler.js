@@ -1,5 +1,5 @@
 const { REST, Routes } = require('discord.js');
-const { info, error, success } = require('../../utils/console');
+const { info, error, success, debug } = require('../../utils/console');
 const { readdirSync } = require('fs');
 const DiscordBot = require('../DiscordBot');
 
@@ -19,7 +19,7 @@ class CommandsHandler {
             for (const file of readdirSync('./commands/' + directory).filter((f) => f.endsWith('.js'))) {
                 try {
                     const module = require('../../commands/' + directory + '/' + file);
-
+                    
                     if (!module) continue;
 
                         if ((!module.name || !module.run) && !module.data) {
@@ -39,14 +39,15 @@ class CommandsHandler {
                             info('Loaded new message command: ' + file);
                         }
                         if (module.data) {
-                            this.client.collection.application_commands.set(module.command.name, module);
+                            this.client.collection.application_commands.set(module.name, module);
                             this.client.rest_application_commands_array.push(module.data.toJSON());
 
                             info('Loaded new application command: ' + file);
                         }
 
-                } catch {
-                    error('Unable to load a command from the path: ' + 'src/commands/' + directory + '/' + file);
+                } catch (e) {
+                    error('Unable to load a command from the path: ' + '/commands/' + directory + '/' + file);
+                    debug.error(e)
                 }
             }
         }

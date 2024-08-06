@@ -1,6 +1,10 @@
 const { Client, Collection, Partials, GatewayIntentBits } = require("discord.js");
-const { warn, error, info, success } = require("../utils/console");
-const ComponentsHandler = require("./handler/ComponentsHandler");
+const { warn, error, info, success, debug } = require("../utils/console");
+const CommandsHandler = require("./handlers/CommandsHandler");
+const CommandsListener = require("./handlers/CommandsListener");
+
+const DatabaseConnection = require("../utils/sqlRequest")
+
 const settings = require("../settings");
 
 class DiscordBot extends Client {
@@ -14,6 +18,9 @@ class DiscordBot extends Client {
             modals: new Collection(),
         }
     }
+    serverPrefix = [];
+    rest_application_commands_array = [];
+    database = new DatabaseConnection();
     login_attempts = 0;
     login_timestamp = 0;
     statusMessages = settings.status.statusMessages;
@@ -26,6 +33,8 @@ class DiscordBot extends Client {
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildMessages,
                 GatewayIntentBits.GuildEmojisAndStickers,
+                GatewayIntentBits.MessageContent,
+                GatewayIntentBits.GuildMembers,
             ],
             partials: [
                 Partials.Channel,
@@ -42,6 +51,8 @@ class DiscordBot extends Client {
                 }]
             }
         });
+
+        new CommandsListener(this);
     }
 
     startStatusRotation = () => {
@@ -61,6 +72,18 @@ class DiscordBot extends Client {
             await this.login(process.env.DISCORD_TOKEN);
             this.commands_handler.load();
             this.startStatusRotation();
+
+            warn('Caching servers message command prefix');
+            this.database.request("SELECT server_id, prefix FROM servers")
+            .then(res => {
+                this.serverPrefix = res;
+            })
+            .catch(err => {
+                error("Error while fetching prefixes, shuting down the bot");
+                debug.error(err)
+                this.destroy();
+            })
+            success('Successfully cached message command prefix');
 
             warn('Attempting to register application commands... (this might take a while!)');
             await this.commands_handler.registerApplicationCommands(settings.development);

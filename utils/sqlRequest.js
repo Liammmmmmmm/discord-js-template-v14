@@ -15,12 +15,12 @@ const settings  = require('../settings');
  */
 class DatabaseConnection {
     constructor () {
-        this.db = mysql.createConnection({
+        this.config = {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME
-        })
+        };
     }
 
     /**
@@ -31,29 +31,31 @@ class DatabaseConnection {
      * @param {string} password database user password
      */
     setDB(database, host, user, password) {
-        this.db = mysql.createConnection({
+        this.config = {
             host: host,
             user: user,
             password: password,
             database: database
-        })
+        };
     }
 
     /**
      * Request an element from the database, with your sql and the params
      * @param {string} sql The sql request (? replace param)
      * @param {string[]} params the variables that will replace the ? in the sql
-     * @returns returns a promise that resolve with the sql request result
+     * @returns {Promise<any>} returns a promise that resolve with the sql request result
      */
     async request(sql, params) {
-        if(params == null) params = [];
+        if (params == null) params = [];
         return new Promise((resolve, reject) => {
-            this.db.connect(err => {
+            const connection = mysql.createConnection(this.config);
+            connection.connect(err => {
                 if (err) {
                     debug.error(err);
                     reject(err);
+                    return;
                 }
-                this.db.query(sql, params, (error, results) => {
+                connection.query(sql, params, (error, results) => {
                     if (error) {
                         debug.error(error);
                         reject(error);
@@ -61,8 +63,7 @@ class DatabaseConnection {
                         debug.success(`Request "${sql}" ok`);
                         resolve(results);
                     }
-
-                    this.db.end(err => {
+                    connection.end(err => {
                         if (err) {
                             debug.error(err);
                             reject(err);
