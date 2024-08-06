@@ -1,5 +1,6 @@
 const { Client, Collection, Partials, GatewayIntentBits } = require("discord.js");
 const { warn, error, info, success } = require("../utils/console");
+const ComponentsHandler = require("./handler/ComponentsHandler");
 const settings = require("../settings");
 
 class DiscordBot extends Client {
@@ -11,12 +12,13 @@ class DiscordBot extends Client {
             buttons: new Collection(),
             selects: new Collection(),
             modals: new Collection(),
-            autocomplete: new Collection()
         }
     }
     login_attempts = 0;
     login_timestamp = 0;
     statusMessages = settings.status.statusMessages;
+
+    commands_handler = new CommandsHandler(this);
 
     constructor() {
         super({
@@ -57,10 +59,11 @@ class DiscordBot extends Client {
 
         try {
             await this.login(process.env.DISCORD_TOKEN);
+            this.commands_handler.load();
             this.startStatusRotation();
 
             warn('Attempting to register application commands... (this might take a while!)');
-
+            await this.commands_handler.registerApplicationCommands(settings.development);
             success('Successfully registered application commands. For specific guild? ' + (settings.development.enabled ? 'Yes' : 'No'));
         } catch (err) {
             error('Failed to connect to the Discord bot, retrying...');
