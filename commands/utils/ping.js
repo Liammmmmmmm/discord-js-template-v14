@@ -7,13 +7,13 @@ const commandName = "ping";
 module.exports = {
     name: commandName,
     aliases: [],
-    run: (client, message) => {
-        executeCMD(client, message, {});
+    run: (client, message, args) => {
+        executeCMD(client, message, args);
     },
     data: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description),
-        async execute(interaction) {
+        async execute(client, interaction) {
             await executeCMD(interaction.client, interaction, {});
         },
 }

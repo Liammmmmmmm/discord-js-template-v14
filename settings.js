@@ -1,7 +1,7 @@
 const settings = {
     development: {
         enabled: true, // If true, the bot will register all application commands to a specific guild (not globally).
-        guildIds: ["450730266479165440"], // "Development Guild", "Another dev guild"
+        guildIds: ["450730266479165440", "876729531166240808"], // "Development Guild", "Another dev guild"
         debug: true, // Display or not some of the errors
         logFile: true
     },

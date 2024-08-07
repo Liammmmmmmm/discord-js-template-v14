@@ -1,38 +1,41 @@
 const { Txt, languages } = require("../../langs/langs.js");
 const settings = require("../../settings.js");
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { validArgAmount } = require("../../utils/random");
+const { debug } = require("../../utils/console")
 
-const commandName = "changelang";
-let formatedLangList = languages.map(el => ({name: el, value: el}));
+const commandName = "changeprefix";
 
 module.exports = {
     name: commandName,
-    aliases: ["setlang"],
+    aliases: ["setprefix"],
     run: async (client, message, args) => {
         const text = new Txt();
         await text.init(message.author.id);
         if(validArgAmount(args, 1, text) != 1) return message.reply(validArgAmount(args, 1, text));
 
-        if(languages.includes(args[0])) {
-            executeCMD(client, message, {lang: args[0]}, text);
+        if(args[0].length > 25) {
+            message.reply(text.get(commandName, "tooLong"));
+        } else if(!message.member.permissions.has(PermissionFlagsBits.Administrator)) {
+            message.reply(text.get("global", "notEnoughPermAdmin"));
         } else {
-            message.reply(text.get(commandName, "badLanguageProvided").replace("%LANG_LIST%", languages.join(", ")));
+            executeCMD(client, message, {prefix: args[0]}, text);
         } 
     },
     data: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description)
         .addStringOption(option =>
-            option.setName('lang')
+            option.setName('prefix')
                 .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description)
                 .setRequired(true)
-                .addChoices(formatedLangList)
-        ),
+                .setMaxLength(25)    
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
         async execute(client, interaction) {
             const text = new Txt();
             await text.init(interaction.author.id);
-            await executeCMD(interaction.client, interaction, {lang: interaction.options.getString('lang')}, text);
+            await executeCMD(interaction.client, interaction, {prefix: interaction.options.getString('prefix')}, text);
         },
 }
 
@@ -45,9 +48,10 @@ const DiscordBot = require("../../client/DiscordBot");
  * @param {Txt} text 
  */
 async function executeCMD(client, message, args, text) {
-    client.database.request("UPDATE users SET lang = ? WHERE discord_id = ?", [args.lang, message.author.id])
+    client.database.request("UPDATE servers SET prefix = ? WHERE server_id = ?", [args.prefix, message.guild.id])
     .then(res => {
-        message.reply(text.get(commandName, "reply").replace("%LANG%", args.lang));
+        client.serverPrefix.find(element => element.server_id == message.guild.id).prefix = args.prefix;
+        message.reply(text.get(commandName, "reply").replace("%PREFIX%", args.prefix));
     })
     .catch(err => {
         debug.error(err);

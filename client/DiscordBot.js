@@ -74,7 +74,7 @@ class DiscordBot extends Client {
             this.startStatusRotation();
 
             warn('Caching servers message command prefix');
-            this.database.request("SELECT server_id, prefix FROM servers")
+            await this.database.request("SELECT server_id, prefix FROM servers")
             .then(res => {
                 this.serverPrefix = res;
             })

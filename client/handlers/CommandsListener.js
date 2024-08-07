@@ -15,10 +15,9 @@ class CommandsListener {
 
             randomMessages(client, message);
 
-            let prefix = client.serverPrefix.find(element => element.server_id = message.guild.id);
-            
+            let prefix = client.serverPrefix.find(element => element.server_id == message.guild.id);
+
             if(!prefix) {
-                console.log(client.database)
                 client.database.request("INSERT INTO servers(server_id, prefix) VALUES (?, ?)", [message.guild.id, settings.commands.prefix])
                 .then(res => {
                     client.serverPrefix.push({server_id: message.guild.id, prefix: settings.commands.prefix});
@@ -42,8 +41,11 @@ class CommandsListener {
 
             if (!command) return;
 
+            let args = message.content.slice(prefix.length + commandInput.length).split(/ +/);
+            args.shift();
+                
             try {
-                command.run(client, message);
+                command.run(client, message, args);
             } catch (err) {
                 error(err);
             }
@@ -58,7 +60,7 @@ class CommandsListener {
 
             try {
                 interaction = transformParam(interaction);
-                command.run(client, interaction);
+                command.execute(client, interaction);
             } catch (err) {
                 error(err);
             }

@@ -19,7 +19,7 @@ class CommandsHandler {
             for (const file of readdirSync('./commands/' + directory).filter((f) => f.endsWith('.js'))) {
                 try {
                     const module = require('../../commands/' + directory + '/' + file);
-                    
+
                     if (!module) continue;
 
                         if ((!module.name || !module.run) && !module.data) {
