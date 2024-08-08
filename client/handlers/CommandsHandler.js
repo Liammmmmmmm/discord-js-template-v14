@@ -44,7 +44,6 @@ class CommandsHandler {
 
                             info('Loaded new application command: ' + file);
                         }
-
                 } catch (e) {
                     error('Unable to load a command from the path: ' + '/commands/' + directory + '/' + file);
                     debug.error(e)

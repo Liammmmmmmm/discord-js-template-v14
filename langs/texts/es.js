@@ -1,4 +1,4 @@
-const es = {
+const texts = {
     global: { // lista de textos aleatorios
         tooManyArgs: "¡Demasiados argumentos! Necesarios %REQUIRED_AMOUNT%, recibidos %RECEIVED_AMOUNT%",
         notEnoughArgs: "¡No hay suficientes argumentos! Necesarios %REQUIRED_AMOUNT%, recibidos %RECEIVED_AMOUNT%",
@@ -34,4 +34,4 @@ const es = {
     },
 }
 
-module.exports = es;
+module.exports = { texts };

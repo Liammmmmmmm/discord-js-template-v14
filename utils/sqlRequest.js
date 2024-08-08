@@ -1,6 +1,6 @@
 const { success, info, warn, error, debug} = require("./console");
 const mysql = require('mysql')
-const settings  = require('../settings');
+const { settings }  = require('../settings');
 
 /**
  * Easy way to make a sql request to your db. Default db is the one in the .env file but you can use an other one with .seDB().

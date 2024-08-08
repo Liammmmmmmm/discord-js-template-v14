@@ -25,4 +25,35 @@ const settings = {
     }
 }
 
-module.exports = settings;
+
+const globalEmbedHeader = {
+    author: "%SERVER_NAME%",
+    authorImageURL: "%SERVER_IMAGE%",
+    authorURL: "https://exemple.com",
+    thumbnai: "https://c.clc2l.com/t/d/i/discord-4OXyS2.png"
+}
+
+const globalEmbedFooter = {
+    text: "%USER_NAME%",
+    imageURL: "%USER_IMAGE%",
+    timestamp: true,
+}
+
+const embeds = {
+    primary: {
+        color: "#dbaf00",
+        header: globalEmbedHeader,
+        footer: globalEmbedFooter,
+    },
+    secondary: {
+        color: "#00b3db",
+        header: globalEmbedHeader,
+        footer: {
+            text: "Secondary exemple",
+            imageURL: "",
+            timestamp: true,
+        },
+    },
+}
+
+module.exports = { settings, embeds };

@@ -1,5 +1,5 @@
 const fs = require("fs");
-const settings = require("../settings")
+const { settings } = require("../settings")
 const DatabaseConnection = require("../utils/sqlRequest")
 const { warn, error, info, success, debug } = require("../utils/console");
 
@@ -75,13 +75,15 @@ class Txt {
      * 
      * @param {string} command - The command name.
      * @param {string} text - The text index.
+     * @param {object} objects - The text index.
      * @returns {string} - The localized text.
      */
-    get(command, text) {
-        let res = require("./texts/" + this.lang)[command][text];
-        if(!res) res = require("./texts/" + settings.messages.defaultLang   + ".js")[command][text];
-        if(!res) res = "Text error";
-        return res;
+    get(command, text, objects) {
+        let texts = require("./texts/" + this.lang).texts[command][text];
+        if(!texts) texts = require("./texts/" + settings.messages.defaultLang   + ".js").texts[command][text];
+        if(!texts) texts = "Text error";
+        if(objects) texts = replaceVariables(texts, objects);
+        return texts;
     }
 
     /**
@@ -140,4 +142,12 @@ function addUserDefaultLang(userid) {
     })
 }
 
-module.exports = { Txt, languages };
+function replaceVariables(text, objects) {
+    Object.entries(objects).forEach(([key, content]) => {
+        text = text.replaceAll(`%${key}%`, content);
+    })
+
+    return text;
+}
+
+module.exports = { Txt, languages, replaceVariables };

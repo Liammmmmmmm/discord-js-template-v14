@@ -1,11 +1,12 @@
 const { Client, Collection, Partials, GatewayIntentBits } = require("discord.js");
 const { warn, error, info, success, debug } = require("../utils/console");
+const { readdirSync } = require('fs');
 const CommandsHandler = require("./handlers/CommandsHandler");
 const CommandsListener = require("./handlers/CommandsListener");
 
 const DatabaseConnection = require("../utils/sqlRequest")
 
-const settings = require("../settings");
+const { settings } = require("../settings");
 
 class DiscordBot extends Client {
     collection = {
@@ -24,6 +25,7 @@ class DiscordBot extends Client {
     login_attempts = 0;
     login_timestamp = 0;
     statusMessages = settings.status.statusMessages;
+    helpCommandsList = {lang: []};
 
     commands_handler = new CommandsHandler(this);
 
@@ -70,6 +72,25 @@ class DiscordBot extends Client {
 
         try {
             await this.login(process.env.DISCORD_TOKEN);
+            warn('Loading help commands');
+            for (const directory of readdirSync('./commands/')) {
+                this.helpCommandsList[directory] = [];
+                for (const file of readdirSync('./commands/' + directory).filter((f) => f.endsWith('.js'))) {
+                    try {
+                        const module = require('../commands/' + directory + '/' + file);
+    
+                        if (!module) continue;
+                        if ((!module.name || !module.run) && !module.data && !module.help) continue;
+                        if(module.help == 1) this.helpCommandsList[directory].push(module.name);
+    
+                    } catch {}
+                }
+            }
+            this.formatedHelpCmdList = [];
+            Object.entries(this.helpCommandsList).forEach(([key, content]) => {
+                content.forEach(cmd => this.formatedHelpCmdList.push({name: cmd, value: cmd}))
+            })
+            success('Successfully cached help commands');
             this.commands_handler.load();
             this.startStatusRotation();
 
@@ -90,7 +111,7 @@ class DiscordBot extends Client {
             success('Successfully registered application commands. For specific guild? ' + (settings.development.enabled ? 'Yes' : 'No'));
         } catch (err) {
             error('Failed to connect to the Discord bot, retrying...');
-            error(err);
+            console.log(err);
             this.login_attempts++;
             setTimeout(this.connect, 5000);
         }

@@ -1,4 +1,4 @@
-const fr = {
+const texts = {
     global: { // liste de textes aléatoires
         tooManyArgs: "Trop d'arguments ! Besoin de %REQUIRED_AMOUNT%, reçu %RECEIVED_AMOUNT%",
         notEnoughArgs: "Pas assez d'arguments ! Besoin de %REQUIRED_AMOUNT%, reçu %RECEIVED_AMOUNT%",
@@ -33,6 +33,14 @@ const fr = {
         reply: "Le prefix a bien été changé à : %PREFIX%",
         tooLong: "Ce nouveau prefix fait plus de 25 char"
     },
+    help: {
+        description: "Liste des commandes.",
+        advancedDesc: "List all possibles commands and help you on a specific command that you pass as an argument. (/help commandname)",
+        title: "Voici toutes les commandes possibles !",
+        categoryformat: "__%CATEGORY_NAME%__",
+        commandformat: "- **%COMMAND_NAME%** : %COMMAND_DESCRIPTION%",
+        invalidCommand: "Cette commande n'existe pas",
+    },
 }
 
-module.exports = fr;
+module.exports = { texts };

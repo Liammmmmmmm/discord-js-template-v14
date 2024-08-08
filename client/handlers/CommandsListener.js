@@ -1,6 +1,6 @@
 const { PermissionsBitField, ChannelType, Events } = require("discord.js");
 const DiscordBot = require("../DiscordBot");
-const settings = require("../../settings");
+const { settings } = require("../../settings");
 const { error, debug } = require("../../utils/console");
 const randomMessages = require("../../messagesReactions/messagesReaction")
 

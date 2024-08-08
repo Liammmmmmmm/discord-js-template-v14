@@ -1,5 +1,5 @@
 const { Txt, languages } = require("../../langs/langs.js");
-const settings = require("../../settings.js");
+const { settings } = require("../../settings.js");
 const { SlashCommandBuilder } = require('discord.js');
 const { validArgAmount } = require("../../utils/random");
 
@@ -9,6 +9,7 @@ let formatedLangList = languages.map(el => ({name: el, value: el}));
 module.exports = {
     name: commandName,
     aliases: ["setlang"],
+    help: 1,
     run: async (client, message, args) => {
         const text = new Txt();
         await text.init(message.author.id);
@@ -17,15 +18,15 @@ module.exports = {
         if(languages.includes(args[0])) {
             executeCMD(client, message, {lang: args[0]}, text);
         } else {
-            message.reply(text.get(commandName, "badLanguageProvided").replace("%LANG_LIST%", languages.join(", ")));
+            message.reply(text.get(commandName, "badLanguageProvided", {LANG_LIST: languages.join(", ")}));
         } 
     },
     data: new SlashCommandBuilder()
         .setName(commandName)
-        .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description)
+        .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
         .addStringOption(option =>
             option.setName('lang')
-                .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description)
+                .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
                 .setRequired(true)
                 .addChoices(formatedLangList)
         ),
@@ -47,7 +48,7 @@ const DiscordBot = require("../../client/DiscordBot");
 async function executeCMD(client, message, args, text) {
     client.database.request("UPDATE users SET lang = ? WHERE discord_id = ?", [args.lang, message.author.id])
     .then(res => {
-        message.reply(text.get(commandName, "reply").replace("%LANG%", args.lang));
+        message.reply(text.get(commandName, "reply", {LANG: args.lang}));
     })
     .catch(err => {
         debug.error(err);

@@ -1,5 +1,5 @@
 const { Txt, languages } = require("../../langs/langs.js");
-const settings = require("../../settings.js");
+const { settings } = require("../../settings.js");
 const { SlashCommandBuilder } = require('discord.js');
 const { validArgAmount } = require("../../utils/random");
 
@@ -9,6 +9,7 @@ let formatedLangList = languages.map(el => ({name: el, value: el}));
 module.exports = {
     name: commandName,
     aliases: [],
+    help: 1,
     run: async (client, message, args) => {
         const text = new Txt();
         await text.init(message.author.id);
@@ -17,7 +18,7 @@ module.exports = {
     },
     data: new SlashCommandBuilder()
         .setName(commandName)
-        .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description),
+        .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description),
         async execute(client, interaction) {
             const text = new Txt();
             await text.init(interaction.author.id);
@@ -34,5 +35,5 @@ const DiscordBot = require("../../client/DiscordBot");
  * @param {Txt} text 
  */
 async function executeCMD(client, message, args, text) {
-    message.reply(text.get(commandName, "reply").replace("%LANG_LIST%", languages.join(", ")));
+    message.reply(text.get(commandName, "reply", {LANG_LIST: languages.join(", ")}));
 }

@@ -1,5 +1,5 @@
 require('colors');
-const settings  = require('../settings');
+const { settings }  = require('../settings');
 const fs = require('fs');
 
 /**

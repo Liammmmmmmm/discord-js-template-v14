@@ -1,5 +1,5 @@
 const { Txt, languages } = require("../../langs/langs.js");
-const settings = require("../../settings.js");
+const { settings } = require("../../settings.js");
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { validArgAmount } = require("../../utils/random");
 const { debug } = require("../../utils/console")
@@ -9,6 +9,7 @@ const commandName = "changeprefix";
 module.exports = {
     name: commandName,
     aliases: ["setprefix"],
+    help: 1,
     run: async (client, message, args) => {
         const text = new Txt();
         await text.init(message.author.id);
@@ -24,10 +25,10 @@ module.exports = {
     },
     data: new SlashCommandBuilder()
         .setName(commandName)
-        .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description)
+        .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
         .addStringOption(option =>
             option.setName('prefix')
-                .setDescription(require("../../langs/texts/" + settings.messages.defaultLang)[commandName].description)
+                .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
                 .setRequired(true)
                 .setMaxLength(25)    
         )
@@ -51,7 +52,7 @@ async function executeCMD(client, message, args, text) {
     client.database.request("UPDATE servers SET prefix = ? WHERE server_id = ?", [args.prefix, message.guild.id])
     .then(res => {
         client.serverPrefix.find(element => element.server_id == message.guild.id).prefix = args.prefix;
-        message.reply(text.get(commandName, "reply").replace("%PREFIX%", args.prefix));
+        message.reply(text.get(commandName, "reply", {PREFIX: args.prefix}));
     })
     .catch(err => {
         debug.error(err);
