@@ -20,6 +20,8 @@ module.exports = {
         if(args.length == 1) {
             if(originalClient.formatedHelpCmdList.find(element => element.name == args[0])) {
                 executeCMD(client, message, {cmd: args[0]}, text);
+            } else if(originalClient.helpCommandsListAliases.find(element => element[0] == args[0])) {
+                executeCMD(client, message, {cmd: originalClient.helpCommandsListAliases.find(element => element[0] == args[0])[1]}, text);
             } else {
                 message.reply(text.get(commandName, "invalidCommand"));
             }
@@ -101,8 +103,12 @@ async function executeCMD(client, message, args, text) {
     } else {
         let embed = new defaultEmbed().setDefault("primary", message);
         embed.setTitle(args.cmd);
-        embed.setDescription(text.get(args.cmd, "advancedDesc"))
+        let alias = "";
+        if(originalClient.helpCommandsListAliases.filter(element => element[1] == args.cmd).length != 0) {
+            alias =  "\n\n" + text.get(commandName, "aliases", {ALIASES_LIST: originalClient.helpCommandsListAliases.filter(element => element[1] == args.cmd).map(element => element[0]).join(", ")})
+        }
+        embed.setDescription(text.get(args.cmd, "advancedDesc") + alias)
         message.reply({embeds: [embed]})
     }
-    
 }
+

@@ -39,6 +39,7 @@ const texts = {
         title: "Here are all the possibles commands, have fun!",
         categoryformat: "__%CATEGORY_NAME%__: %CATEGORY_DESCRIPTION%",
         commandformat: "- **%COMMAND_NAME%**: %COMMAND_DESCRIPTION%",
+        aliases: "The aliases you can use for this command are: ***%ALIASES_LIST%***",
         invalidCommand: "This command don't exist",
     },
 }

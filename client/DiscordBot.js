@@ -73,6 +73,7 @@ class DiscordBot extends Client {
         try {
             await this.login(process.env.DISCORD_TOKEN);
             warn('Loading help commands');
+            this.helpCommandsListAliases = []
             for (const directory of readdirSync('./commands/')) {
                 this.helpCommandsList[directory] = [];
                 for (const file of readdirSync('./commands/' + directory).filter((f) => f.endsWith('.js'))) {
@@ -82,7 +83,11 @@ class DiscordBot extends Client {
                         if (!module) continue;
                         if ((!module.name || !module.run) && !module.data && !module.help) continue;
                         if(module.help == 1) this.helpCommandsList[directory].push(module.name);
-    
+                        if(module.aliases) {
+                            module.aliases.forEach(element => {
+                                this.helpCommandsListAliases.push([element, module.name]);
+                            })
+                        }
                     } catch {}
                 }
             }
