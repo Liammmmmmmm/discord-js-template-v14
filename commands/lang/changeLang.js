@@ -46,7 +46,7 @@ const DiscordBot = require("../../client/DiscordBot");
  * @param {Txt} text 
  */
 async function executeCMD(client, message, args, text) {
-    client.database.request("UPDATE users SET lang = ? WHERE discord_id = ?", [args.lang, message.author.id])
+    text.changeLanguage(args.lang)
     .then(res => {
         message.reply(text.get(commandName, "reply", {LANG: args.lang}));
     })

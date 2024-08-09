@@ -94,17 +94,19 @@ class Txt {
      */
     async changeLanguage(lang) {
         let db = new DatabaseConnection();
-        let isvalid = 0;
-        if (!languages.includes(lang)) return 0;
-        await db.request("UPDATE users SET lang = ? WHERE discord_id = ?", [lang, this.userid])
-        .then(res => {
-            isvalid = 1;
-            debug.success(`User ${this.userid} succefully change it's lang by : ${lang}`);
+        return new Promise(async (resolve, reject) => {
+            if (!languages.includes(lang)) return 0;
+            await db.request("UPDATE users SET lang = ? WHERE discord_id = ?", [lang, this.userid])
+            .then(res => {
+                resolve(lang)
+                this.lang = lang;
+                debug.success(`User ${this.userid} succefully change it's lang by : ${lang}`);
+            })
+            .catch(err => {
+                reject(err)
+                debug.warn(`An error occured while changing ${this.userid}'s language in database.`);
+            })
         })
-        .catch(err => {
-            debug.warn(`An error occured while changing ${this.userid}'s language in database.`);
-        })
-        return isvalid;
     }
 
     /**
