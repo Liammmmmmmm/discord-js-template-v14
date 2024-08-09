@@ -1,6 +1,3 @@
-const sendwebhook = require("../../commands/utils/sendwebhook");
-const { success } = require("../../utils/console");
-
 const texts = {
     global: { // list of random texts
         tooManyArgs: "Too many arguments! Need %REQUIRED_AMOUNT%, received %RECEIVED_AMOUNT%",

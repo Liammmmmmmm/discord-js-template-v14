@@ -2,7 +2,7 @@ const { Txt, languages } = require("../../langs/langs.js");
 const { settings } = require("../../settings.js");
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { validArgAmount } = require("../../utils/random");
-const { debug } = require("../../utils/console")
+const { debug } = require("../../utils/Console.js")
 
 const commandName = "changeprefix";
 

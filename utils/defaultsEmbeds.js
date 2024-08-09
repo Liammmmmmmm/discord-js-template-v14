@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const { replaceVariables } = require("../langs/langs");
 const { embeds } = require("../settings");
 
-class defaultEmbed extends EmbedBuilder {
+class DefaultEmbed extends EmbedBuilder {
     
     setDefault(embed, message) {
         let variables = {
@@ -35,4 +35,4 @@ class defaultEmbed extends EmbedBuilder {
     }
 }
 
-module.exports = { defaultEmbed }
+module.exports = { DefaultEmbed }

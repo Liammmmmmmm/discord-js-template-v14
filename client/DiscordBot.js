@@ -1,10 +1,11 @@
 const { Client, Collection, Partials, GatewayIntentBits } = require("discord.js");
-const { warn, error, info, success, debug } = require("../utils/console");
+const { warn, error, info, success, debug } = require("../utils/Console");
 const { readdirSync } = require('fs');
 const CommandsHandler = require("./handlers/CommandsHandler");
 const CommandsListener = require("./handlers/CommandsListener");
+const { loadEvents } = require("./handlers/Events")
 
-const DatabaseConnection = require("../utils/sqlRequest")
+const DatabaseConnection = require("../utils/SQLRequest")
 
 const { settings } = require("../settings");
 
@@ -99,6 +100,9 @@ class DiscordBot extends Client {
             success('Successfully cached help commands');
             this.commands_handler.load();
             this.startStatusRotation();
+
+            warn('Loading events');
+            loadEvents(this);
 
             warn('Caching servers message command prefix');
             await this.database.request("SELECT server_id, prefix FROM servers")

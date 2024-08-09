@@ -1,9 +1,9 @@
 const { Txt, languages } = require("../../langs/langs.js");
-const { defaultEmbed } = require("../../utils/defaultsEmbeds");
+const { DefaultEmbed } = require("../../utils/DefaultsEmbeds.js");
 const { settings } = require("../../settings.js");
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { validArgAmountInterval } = require("../../utils/random.js");
-const { debug } = require("../../utils/console.js")
+const { debug } = require("../../utils/Console.js")
 const originalClient = require("../../main.js");
 
 const commandName = "help";
@@ -61,7 +61,7 @@ const DiscordBot = require("../../client/DiscordBot.js");
 async function executeCMD(client, message, args, text) {
     if(args.cmd == null) {
         let embeds = [];
-        let embed = new defaultEmbed().setDefault("primary", message);
+        let embed = new DefaultEmbed().setDefault("primary", message);
         let fieldAmount = 0;
         embed.setTitle(text.get(commandName, "title"));
         Object.entries(originalClient.helpCommandsList).forEach(([key, content]) => {
@@ -82,7 +82,7 @@ async function executeCMD(client, message, args, text) {
                         fieldAmount++;
                         if(fieldAmount >= 25) {
                             embeds.push(embed);
-                            embed = new defaultEmbed().setDefault("primary", message); 
+                            embed = new DefaultEmbed().setDefault("primary", message); 
                         }
                         cat_desc = "--";
                         tour++;
@@ -93,7 +93,7 @@ async function executeCMD(client, message, args, text) {
                     fieldAmount++;
                     if(fieldAmount >= 25) {
                         embeds.push(embed);
-                        embed = new defaultEmbed().setDefault("primary", message); 
+                        embed = new DefaultEmbed().setDefault("primary", message); 
                     }
                 }
             }
@@ -101,7 +101,7 @@ async function executeCMD(client, message, args, text) {
         embeds.push(embed);
         message.reply({embeds: embeds})
     } else {
-        let embed = new defaultEmbed().setDefault("primary", message);
+        let embed = new DefaultEmbed().setDefault("primary", message);
         embed.setTitle(args.cmd);
         let alias = "";
         if(originalClient.helpCommandsListAliases.filter(element => element[1] == args.cmd).length != 0) {

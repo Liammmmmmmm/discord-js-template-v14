@@ -1,9 +1,9 @@
 const { Txt, languages } = require("../../langs/langs.js");
 const { settings } = require("../../settings.js");
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { defaultEmbed } = require("../../utils/defaultsEmbeds");
-const { WebhookMessage } = require("../../utils/webhook.js");
-const { debug } = require("../../utils/console")
+const { DefaultEmbed } = require("../../utils/DefaultsEmbeds.js");
+const { WebhookMessage } = require("../../utils/WebhookMessage.js");
+const { debug } = require("../../utils/Console.js")
 
 const commandName = "sendwebhook";
 
@@ -20,10 +20,9 @@ module.exports = {
         },
 }
 
-const DiscordBot = require("../../client/DiscordBot.js");
 /**
  * Execute the command with both slash and message command
- * @param {DiscordBot} client 
+ * @param {import("../../client/DiscordBot.js").DiscordBot} client 
  * @param {import("discord.js").ChatInputCommandInteraction} message 
  * @param {object} args 
  * @param {Txt} text 
@@ -32,7 +31,7 @@ async function executeCMD(client, message, args) {
     const text = new Txt();
     await text.init(message.author.id);
 
-    let embed = new defaultEmbed().setDefault("primary", message).setTitle("Ceci est un exemple").setDescription("d'un messsage envoyé via un webhook")
+    let embed = new DefaultEmbed().setDefault("primary", message).setTitle("Ceci est un exemple").setDescription("d'un messsage envoyé via un webhook")
 
     let webhook = new WebhookMessage();
     let success = await webhook.init(message);

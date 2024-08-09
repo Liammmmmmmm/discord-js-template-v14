@@ -1,5 +1,5 @@
 const { REST, Routes } = require('discord.js');
-const { info, error, success, debug } = require('../../utils/console');
+const { info, error, success, debug } = require('../../utils/Console');
 const { readdirSync } = require('fs');
 const DiscordBot = require('../DiscordBot');
 

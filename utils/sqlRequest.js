@@ -1,4 +1,4 @@
-const { success, info, warn, error, debug} = require("./console");
+const { success, info, warn, error, debug} = require("./Console");
 const mysql = require('mysql')
 const { settings }  = require('../settings');
 

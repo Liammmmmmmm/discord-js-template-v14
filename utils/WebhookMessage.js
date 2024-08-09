@@ -1,5 +1,5 @@
-const { success, info, warn, error, debug} = require("./console");
-const DatabaseConnection = require("./sqlRequest")
+const { success, info, warn, error, debug} = require("./Console");
+const DatabaseConnection = require("./SQLRequest")
 const { PermissionFlagsBits, WebhookClient } = require('discord.js');
 const { settings } = require('../settings');
 

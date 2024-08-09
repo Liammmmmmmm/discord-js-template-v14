@@ -1,5 +1,5 @@
-const { success, info, warn, error, debug} = require("./utils/console");
-const DatabaseConnection = require("./utils/sqlRequest");
+const { success, info, warn, error, debug} = require("./utils/Console");
+const DatabaseConnection = require("./utils/SQLRequest");
 const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env'});
