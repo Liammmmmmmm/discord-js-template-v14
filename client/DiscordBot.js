@@ -37,6 +37,7 @@ class DiscordBot extends Client {
                 GatewayIntentBits.GuildEmojisAndStickers,
                 GatewayIntentBits.MessageContent,
                 GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildWebhooks,
             ],
             partials: [
                 Partials.Channel,

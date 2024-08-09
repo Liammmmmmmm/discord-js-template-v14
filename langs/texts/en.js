@@ -1,3 +1,6 @@
+const sendwebhook = require("../../commands/utils/sendwebhook");
+const { success } = require("../../utils/console");
+
 const texts = {
     global: { // list of random texts
         tooManyArgs: "Too many arguments! Need %REQUIRED_AMOUNT%, received %RECEIVED_AMOUNT%",
@@ -30,6 +33,7 @@ const texts = {
     changeprefix: {
         description: "Change the bot's prefix.",
         advancedDesc: "Change the bot's prefix. (/setprefix newprefix, max length 25 char)",
+        arg1: "The new server prefix",
         reply: "Prefix succefully changed to: %PREFIX%",
         tooLong: "Your new prefix is more than 25 char",
     },
@@ -41,6 +45,13 @@ const texts = {
         commandformat: "- **%COMMAND_NAME%**: %COMMAND_DESCRIPTION%",
         aliases: "The aliases you can use for this command are: ***%ALIASES_LIST%***",
         invalidCommand: "This command don't exist",
+    },
+    sendwebhook: {
+        description: "Send webhook (exemple only here).",
+        advancedDesc: "Send webhook (exemple only here).",
+        noPermission: "Not enough permission",
+        success: "Webhook succefully created",
+        error: "An error occured",
     },
 }
 

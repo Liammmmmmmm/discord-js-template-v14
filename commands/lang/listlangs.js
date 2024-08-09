@@ -22,7 +22,7 @@ module.exports = {
         async execute(client, interaction) {
             const text = new Txt();
             await text.init(interaction.author.id);
-            await executeCMD(interaction.client, interaction, {}, text);
+            await executeCMD(client, interaction, {}, text);
         },
 }
 
@@ -30,7 +30,7 @@ const DiscordBot = require("../../client/DiscordBot");
 /**
  * Execute the command with both slash and message command
  * @param {DiscordBot} client 
- * @param {import("discord.js").Message} message 
+ * @param {import("discord.js").Message | import("discord.js").ChatInputCommandInteraction} message 
  * @param {object} args 
  * @param {Txt} text 
  */

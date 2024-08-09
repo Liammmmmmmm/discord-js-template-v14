@@ -15,14 +15,14 @@ module.exports = {
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description),
         async execute(client, interaction) {
-            await executeCMD(interaction.client, interaction, {});
+            await executeCMD(client, interaction, {});
         },
 }
 
 /**
  * 
  * @param {import("discord.js").Client} client 
- * @param {import("discord.js").Message} message 
+ * @param {import("discord.js").Message | import("discord.js").ChatInputCommandInteraction} message 
  * @param {object} args 
  */
 async function executeCMD(client, message, args) {

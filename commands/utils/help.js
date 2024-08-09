@@ -54,7 +54,7 @@ const DiscordBot = require("../../client/DiscordBot.js");
 /**
  * Execute the command with both slash and message command
  * @param {DiscordBot} client 
- * @param {import("discord.js").Message} message 
+ * @param {import("discord.js").Message | import("discord.js").ChatInputCommandInteraction} message 
  * @param {object} args 
  * @param {Txt} text 
  */

@@ -16,6 +16,10 @@ const settings = {
         defaultLang: "en",
         DATABASE_ERROR: "A database error orccured"
     },
+    bot: { // Useless if you don't use webhooks
+        name: "Test",
+        icon: "https://cdn.discordapp.com/avatars/727813004464488488/e0ded07a54ded9ec9c0a1a33c0547477.webp?size=160"
+    },
     status: {
         statusMessages: [
             { name: 'mes waifus', type: 3 },

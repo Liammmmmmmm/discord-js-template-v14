@@ -28,7 +28,7 @@ module.exports = {
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
         .addStringOption(option =>
             option.setName('prefix')
-                .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
+                .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].arg1)
                 .setRequired(true)
                 .setMaxLength(25)    
         )
@@ -36,7 +36,7 @@ module.exports = {
         async execute(client, interaction) {
             const text = new Txt();
             await text.init(interaction.author.id);
-            await executeCMD(interaction.client, interaction, {prefix: interaction.options.getString('prefix')}, text);
+            await executeCMD(client, interaction, {prefix: interaction.options.getString('prefix')}, text);
         },
 }
 
@@ -44,7 +44,7 @@ const DiscordBot = require("../../client/DiscordBot");
 /**
  * Execute the command with both slash and message command
  * @param {DiscordBot} client 
- * @param {import("discord.js").Message} message 
+ * @param {import("discord.js").Message | import("discord.js").ChatInputCommandInteraction} message 
  * @param {object} args 
  * @param {Txt} text 
  */
