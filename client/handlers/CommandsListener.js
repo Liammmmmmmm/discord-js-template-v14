@@ -4,10 +4,21 @@ const { settings } = require("../../settings");
 const { error, debug } = require("../../utils/Console");
 const randomMessages = require("../../messagesReactions/messagesReaction")
 
+/**
+ * @class CommandsListener
+ * @description Listens for and handles command interactions from Discord messages and application commands.
+ *              It processes messages to determine if they contain bot commands, executes them if they do,
+ *              and handles application commands (slash commands) by executing the corresponding command functions.
+ *              The class also manages command prefixes for different servers, storing default prefixes in the database if not already set.
+ *
+ * @example
+ * // Initialize the CommandsListener with a DiscordBot instance
+ * const listener = new CommandsListener(botClient);
+ * // This will automatically set up event listeners for message creation and interaction events.
+ */
 class CommandsListener {
     /**
-     * 
-     * @param {DiscordBot} client 
+     * @param {DiscordBot} client - An instance of the DiscordBot class to listen for events and execute commands.
      */
     constructor(client) {
         client.on(Events.MessageCreate, async message => {
@@ -17,17 +28,17 @@ class CommandsListener {
 
             let prefix = client.serverPrefix.find(element => element.server_id == message.guild.id);
 
-            if(!prefix) {
+            if (!prefix) {
                 client.database.request("INSERT INTO servers(server_id, prefix) VALUES (?, ?)", [message.guild.id, settings.commands.prefix])
-                .then(res => {
-                    client.serverPrefix.push({server_id: message.guild.id, prefix: settings.commands.prefix});
-                })
-                .catch(err => {
-                    debug.error(err);
-                })
+                    .then(res => {
+                        client.serverPrefix.push({ server_id: message.guild.id, prefix: settings.commands.prefix });
+                    })
+                    .catch(err => {
+                        debug.error(err);
+                    });
                 prefix = settings.commands.prefix;
             } else {
-                prefix = prefix.prefix
+                prefix = prefix.prefix;
             }
 
             if (!message.content.startsWith(prefix)) return;
@@ -43,7 +54,7 @@ class CommandsListener {
 
             let args = message.content.slice(prefix.length + commandInput.length).split(/ +/);
             args.shift();
-                
+
             try {
                 command.run(client, message, args);
             } catch (err) {
@@ -69,10 +80,10 @@ class CommandsListener {
 }
 
 /**
- * Transforms interaction as a message.
+ * Transforms interaction parameters to match message parameter structure.
  *
- * @param {Object} params - The parameters object.
- * @returns {Object} - The transformed parameters.
+ * @param {Object} params - The interaction parameters to be transformed.
+ * @returns {Object} - The transformed parameters with 'user' replaced by 'author' if present.
  */
 function transformParam(params) {
     if (params.hasOwnProperty('user')) {

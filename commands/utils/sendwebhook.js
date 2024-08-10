@@ -1,7 +1,7 @@
 const { Txt, languages } = require("../../langs/langs.js");
 const { settings } = require("../../settings.js");
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { DefaultEmbed } = require("../../utils/DefaultsEmbeds.js");
+const { DefaultEmbed } = require("../../utils/DefaultEmbeds.js");
 const { WebhookMessage } = require("../../utils/WebhookMessage.js");
 const { debug } = require("../../utils/Console.js")
 

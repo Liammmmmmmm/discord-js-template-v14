@@ -3,6 +3,23 @@ const { info, error, success, debug } = require('../../utils/Console');
 const { readdirSync } = require('fs');
 const DiscordBot = require('../DiscordBot');
 
+/**
+ * @class CommandsHandler
+ * @description Handles loading, reloading, and registering of Discord bot commands. 
+ *              The class manages both message-based commands and application commands, 
+ *              ensuring they are properly loaded from the filesystem, stored in the bot's collections, 
+ *              and registered with the Discord API.
+ *
+ * @example
+ * // Initialize the CommandsHandler with a DiscordBot instance
+ * const handler = new CommandsHandler(botClient);
+ * 
+ * // Load all commands
+ * handler.load();
+ * 
+ * // Register application commands
+ * handler.registerApplicationCommands({ enabled: true, guildIds: ['guild_id_1', 'guild_id_2'] });
+ */
 class CommandsHandler {
     client;
 
@@ -75,6 +92,11 @@ class CommandsHandler {
                 await rest.put(Routes.applicationGuildCommands(this.client.user.id, element), { body: this.client.rest_application_commands_array });
             })
         } else {
+            // await development.guildIds.forEach(async element => {
+            //     const guild = this.client.guilds.cache.get(element);
+            //     this.client.application.commands.set([]);
+            //     guild.commands.set([]);
+            // })
             await rest.put(Routes.applicationCommands(this.client.user.id), { body: this.client.rest_application_commands_array });
         }
     }

@@ -1,5 +1,5 @@
 const { Txt, languages } = require("../../langs/langs.js");
-const { DefaultEmbed } = require("../../utils/DefaultsEmbeds.js");
+const { DefaultEmbed } = require("../../utils/DefaultEmbeds.js");
 const { settings } = require("../../settings.js");
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { validArgAmountInterval } = require("../../utils/random.js");
