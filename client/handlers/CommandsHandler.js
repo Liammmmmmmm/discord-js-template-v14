@@ -39,12 +39,12 @@ class CommandsHandler {
 
                     if (!module) continue;
 
-                        if ((!module.name || !module.run) && !module.data) {
+                        if ((!module.name || !module.message) && !module.slash) {
                             error('Unable to load the command ' + file);
                             continue;
                         }
 
-                        if (module.name && module.run) {
+                        if (module.name && module.message) {
                             this.client.collection.message_commands.set(module.name, module);
 
                             if (module.aliases && Array.isArray(module.aliases)) {
@@ -55,9 +55,9 @@ class CommandsHandler {
 
                             info('Loaded new message command: ' + file);
                         }
-                        if (module.data) {
+                        if (module.slash) {
                             this.client.collection.application_commands.set(module.name, module);
-                            this.client.rest_application_commands_array.push(module.data.toJSON());
+                            this.client.rest_application_commands_array.push(module.slash.toJSON());
 
                             info('Loaded new application command: ' + file);
                         }

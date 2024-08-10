@@ -56,7 +56,7 @@ class CommandsListener {
             args.shift();
 
             try {
-                command.run(client, message, args);
+                command.message(client, message, args);
             } catch (err) {
                 error(err);
             }

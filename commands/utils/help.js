@@ -12,7 +12,7 @@ module.exports = {
     name: commandName,
     aliases: [],
     help: 1,
-    run: async (client, message, args) => {
+    message: async (client, message, args) => {
         const text = new Txt();
         await text.init(message.author.id);
         if(validArgAmountInterval(args, 0, 1, text) != 1) return message.reply(validArgAmountInterval(args, 0, 1, text));
@@ -29,7 +29,7 @@ module.exports = {
             executeCMD(client, message, {cmd: null}, text);
         } 
     },
-    data: new SlashCommandBuilder()
+    slash: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
         .addStringOption(option =>

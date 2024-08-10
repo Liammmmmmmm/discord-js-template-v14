@@ -10,13 +10,13 @@ module.exports = {
     name: commandName,
     aliases: [],
     help: 1,
-    run: async (client, message, args) => {
+    message: async (client, message, args) => {
         const text = new Txt();
         await text.init(message.author.id);
 
         executeCMD(client, message, {}, text);
     },
-    data: new SlashCommandBuilder()
+    slash: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description),
         async execute(client, interaction) {

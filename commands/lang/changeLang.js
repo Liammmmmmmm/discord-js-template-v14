@@ -10,7 +10,7 @@ module.exports = {
     name: commandName,
     aliases: ["setlang"],
     help: 1,
-    run: async (client, message, args) => {
+    message: async (client, message, args) => {
         const text = new Txt();
         await text.init(message.author.id);
         if(validArgAmount(args, 1, text) != 1) return message.reply(validArgAmount(args, 1, text));
@@ -21,7 +21,7 @@ module.exports = {
             message.reply(text.get(commandName, "badLanguageProvided", {LANG_LIST: languages.join(", ")}));
         } 
     },
-    data: new SlashCommandBuilder()
+    slash: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
         .addStringOption(option =>

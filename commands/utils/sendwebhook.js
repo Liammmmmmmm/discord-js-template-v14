@@ -11,7 +11,7 @@ module.exports = {
     name: commandName,
     aliases: [],
     help: 0,
-    data: new SlashCommandBuilder()
+    slash: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description)
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageWebhooks),

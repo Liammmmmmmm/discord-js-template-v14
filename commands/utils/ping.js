@@ -8,10 +8,10 @@ module.exports = {
     name: commandName,
     aliases: [],
     help: 1,
-    run: (client, message, args) => {
+    message: (client, message, args) => {
         executeCMD(client, message, args);
     },
-    data: new SlashCommandBuilder()
+    slash: new SlashCommandBuilder()
         .setName(commandName)
         .setDescription(require("../../langs/texts/" + settings.messages.defaultLang).texts[commandName].description),
         async execute(client, interaction) {
