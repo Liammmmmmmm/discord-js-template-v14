@@ -29,9 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `servers` (
   `id` int(11) NOT NULL,
-  `id_server` text NOT NULL,
-  `prefix` text NOT NULL,
-  `dark` int(1) NOT NULL DEFAULT 0
+  `server_id` varchar(25) NOT NULL,
+  `prefix` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
