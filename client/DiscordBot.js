@@ -2,7 +2,9 @@ const { Client, Collection, Partials, GatewayIntentBits } = require("discord.js"
 const { warn, error, info, success, debug } = require("../utils/Console");
 const { readdirSync } = require('fs');
 const CommandsHandler = require("./handlers/CommandsHandler");
-const CommandsListener = require("./handlers/CommandsListener");
+const CommandsListener = require("./handlers/CommandsListener")
+const InteractionsHandler = require("./handlers/InteractionsHandler");
+const InteractionsListener = require("./handlers/InteractionsListener");
 const { loadEvents } = require("./handlers/Events")
 
 const DatabaseConnection = require("../utils/SQLRequest")
@@ -18,6 +20,8 @@ class DiscordBot extends Client {
             buttons: new Collection(),
             selects: new Collection(),
             modals: new Collection(),
+            context: new Collection(),
+            autocomplete: new Collection()
         }
     }
     serverPrefix = [];
@@ -29,6 +33,7 @@ class DiscordBot extends Client {
     helpCommandsList = {lang: []};
 
     commands_handler = new CommandsHandler(this);
+    interactions_handler = new InteractionsHandler(this);
 
     constructor() {
         super({
@@ -57,6 +62,7 @@ class DiscordBot extends Client {
         });
 
         new CommandsListener(this);
+        new InteractionsListener(this);
     }
 
     startStatusRotation = () => {
@@ -99,6 +105,7 @@ class DiscordBot extends Client {
             })
             success('Successfully cached help commands');
             this.commands_handler.load();
+            this.interactions_handler.load();
             this.startStatusRotation();
 
             warn('Loading events');
