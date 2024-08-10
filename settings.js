@@ -33,7 +33,7 @@ const globalEmbedHeader = {
     author: "%SERVER_NAME%",
     authorImageURL: "%SERVER_IMAGE%",
     authorURL: "https://exemple.com",
-    thumbnai: "https://c.clc2l.com/t/d/i/discord-4OXyS2.png"
+    thumbnail: "https://c.clc2l.com/t/d/i/discord-4OXyS2.png"
 }
 
 const globalEmbedFooter = {
