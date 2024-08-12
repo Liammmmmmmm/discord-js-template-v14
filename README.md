@@ -1,3 +1,7 @@
+[![discord.js](https://img.shields.io/github/package-json/dependency-version/Liammmmmmmm/discord-js-template-v14/discord.js)](https://discord.js.org/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT)
+[![Pull Requests](https://img.shields.io/badge/Pull%20Requests-Welcome!-brightgreen)](https://github.com/Liammmmmmmm/discord-js-template-v14/pulls)
+
 # Discord Bot Template
 
 This is a template for a Discord bot using discord.js v14.15.3 and MySQL. Feel free to use and customize it for your own needs!
